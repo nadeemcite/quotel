@@ -1,0 +1,74 @@
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--4-col">
+    <form>
+      <div style="text-align:center;">
+        <button ng-click="changeWindowType(1)" class="mdl-button mdl-js-button mdl-button--accent">Fix</button>
+        <button ng-click="changeWindowType(2)" class="mdl-button mdl-js-button mdl-button--accent">Open</button>
+        <button ng-click="changeWindowType(3)" class="mdl-button mdl-js-button mdl-button--accent">Slide</button>
+      </div>
+
+      <div>
+        <div ng-repeat="design in windowDesigns" style="display:inline;" ng-click="selectWindowDesign($index,design)">
+          <img ng-src="http://custom.quotel.in/application/assets/img/window_images/{{design.image_file}}" style="height:100px;width: 200px;  {{design.css}}">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="mdl-cell mdl-cell--4-col">
+    <form ng-submit="addDesignCard()" novalidate>
+      <div class="mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="windowLocation" ng-model="f2.windowLocation" >
+        <label class="mdl-textfield__label" for="windowLocation">Window Location</label>
+        <!--<span class="mdl-textfield__error">Input is not a number!</span>-->
+      </div>
+      <div class="mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="windowWidth" ng-model="f2.windowWidth">
+        <label class="mdl-textfield__label" for="windowWidth">Window Width</label>
+        <!--<span class="mdl-textfield__error">Input is not a number!</span>-->
+      </div>
+      <div class="mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="windowHeight" ng-model="f2.windowHeight">
+        <label class="mdl-textfield__label" for="windowHeight">Window Height</label>
+        <!--<span class="mdl-textfield__error">Input is not a number!</span>-->
+      </div>
+      <div class="mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="windowQuantity" ng-model="f2.windowQuantity">
+        <label class="mdl-textfield__label" for="windowQuantity">Window Quantity</label>
+        <!--<span class="mdl-textfield__error">Input is not a number!</span>-->
+      </div>
+      <div class="mdl-textfield mdl-js-textfield  mdl-textfield--floating-label">
+        <select class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="glassType" ng-model="f2.glassType" ng-init="f2.glassType='0'">
+          <option value="0">Select Glass</option>
+          <option value="1">No Glass</option>
+          <option value="2">4mm Clear float</option>
+        </select>
+        <label class="mdl-textfield__label" for="glassType">Window Glass</label>
+        <!--<span class="mdl-textfield__error">Input is not a number!</span>-->
+      </div>
+      <br />
+      <br />
+      <div style="text-align:center;" ng-show="state==3">
+        <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" type="submit">
+        <i class="material-icons">add</i>
+      </button>
+      </div>
+    </form>
+  </div>
+  <div class="mdl-cell mdl-cell--4-col">
+    <ul class="demo-list-two mdl-list">
+      <li class="mdl-list__item mdl-list__item--two-line" ng-repeat="designCard in designCards">
+        <span class="mdl-list__item-primary-content">
+      <img ng-src="http://custom.quotel.in/application/assets/img/window_images/{{designCard.window.image_file}}" style="border-radius:50% 50%; width:50px; height:50px;">
+      <span>{{designCard.location}} <small>{{designCard.width}}mm X {{designCard.height}}mm ({{designCard.quantity}})</small></span>
+
+        </span>
+        <span class="mdl-list__item-secondary-content">
+
+      <span class="mdl-list__item-secondary-info">Remove</span>
+        <a class="mdl-list__item-secondary-action" ng-click="removeDesignCard($index)"><i class="material-icons">close</i></a>
+        </span>
+      </li>
+    </ul>
+    <button ng-click="quote" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" ng-show="designCards.length>0">Get Quote</button>
+  </div>
+</div>
