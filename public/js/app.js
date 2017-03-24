@@ -42,6 +42,7 @@ app.controller('HomeController',function(QuotelService,$scope){
         design.css="border:5px solid blue;";
         $scope.selectedWindow=design;
         $scope.selectedWindowIndex=index;
+        $scope.meshAllowed=(design.mesh!='0');
         $scope.state=3;
     }
     $scope.designCards=[];
@@ -62,7 +63,58 @@ app.controller('HomeController',function(QuotelService,$scope){
         $scope.state=1;
         $scope.windowDesigns =[];
     }
+    $scope.validateForm2=function(){
+        if($scope.f2.windowWidth=='')return false;
+        if($scope.f2.windowHeight=='')return false;
+        if($scope.f2.windowLocation=='')return false;
+        if($scope.f2.windowQuantity=='')return false;
+        if($scope.f2.glassType=='0')return false;
+        return true;
+    }
+    $scope.status3to4=function(){
+        if($scope.state==3 && $scope.validateForm2()){
+            $scope.state=4;
+        }
+    }
     $scope.removeDesignCard=function(index){
         $scope.designCards.splice(index,1)
     }
 })
+app.directive('onlyNumber', function () {
+    return {
+        restrict: 'A'
+        , require: 'ngModel'
+        , link: ['scope', 'element', 'attrs', 'modelCtrl', function (scope, element, attrs, modelCtrl) {
+            modelCtrl.$parsers.push(function (input) {
+                return input ? parseFloat(input) : "";
+            });
+        }]
+        , scope: {
+            'allowDecimal': '='
+        }
+        , controller: ['$scope', '$element', function ($scope, $element) {
+            $element.on('keypress', function (event) {
+                if (!$scope.allowDecimal && (event.which < 48 || event.which > 57)) {
+                    event.preventDefault();
+                }
+                if ((event.which != 46 || $element.val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                    event.preventDefault();
+                }
+            });
+
+            function checkVal() {
+                if ($element.val() != '') {
+                    $element.addClass('has-value');
+                }
+                else {
+                    $element.removeClass('has-value');
+                    $element.removeClass('ng-dirty');
+                }
+            }
+            checkVal();
+            $element.change(checkVal);
+            $element.click(checkVal);
+            $element.blur(checkVal);
+        }]
+    }
+});
